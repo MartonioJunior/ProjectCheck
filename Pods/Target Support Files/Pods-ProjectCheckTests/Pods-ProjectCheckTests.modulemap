@@ -1,0 +1,6 @@
+framework module Pods_ProjectCheckTests {
+  umbrella header "Pods-ProjectCheckTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
