@@ -18,6 +18,7 @@
 		A222040C1E52438D001C068A /* CorrigirProvaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A222040B1E52438D001C068A /* CorrigirProvaViewController.swift */; };
 		A222040E1E5243A3001C068A /* CriarProvaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A222040D1E5243A3001C068A /* CriarProvaViewController.swift */; };
 		A2D86E2A1E563461004AC5B5 /* PreemcherGabaritoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D86E291E563461004AC5B5 /* PreemcherGabaritoViewController.swift */; };
+		A2FAE8891E577A09008AC3BC /* Provas.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A2FAE8871E577A09008AC3BC /* Provas.xcdatamodeld */; };
 		CBAD1D98D8EC0E1892B9A36D /* Pods_ProjectCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2781FFD59C6BB7B3BC45B44A /* Pods_ProjectCheck.framework */; };
 		CF03EA0A9F2E035B181DDB35 /* Pods_ProjectCheckTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F35E56526774D833FF37173 /* Pods_ProjectCheckTests.framework */; };
 /* End PBXBuildFile section */
@@ -47,6 +48,7 @@
 		50B5E007AFA59641FBE65C6A /* Pods-ProjectCheckTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectCheckTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ProjectCheckTests/Pods-ProjectCheckTests.release.xcconfig"; sourceTree = "<group>"; };
 		52A2D402CEFB455982705FD2 /* Pods-ProjectCheck.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectCheck.release.xcconfig"; path = "Pods/Target Support Files/Pods-ProjectCheck/Pods-ProjectCheck.release.xcconfig"; sourceTree = "<group>"; };
 		61B0CB99C7B3B160B8D74A50 /* Pods-ProjectCheckTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectCheckTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ProjectCheckTests/Pods-ProjectCheckTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A20572AF1E5B84D900A99DAF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		A22203DA1E521DB2001C068A /* ProjectCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A22203DD1E521DB2001C068A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A22203DF1E521DB2001C068A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 		A222040B1E52438D001C068A /* CorrigirProvaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CorrigirProvaViewController.swift; sourceTree = "<group>"; };
 		A222040D1E5243A3001C068A /* CriarProvaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriarProvaViewController.swift; sourceTree = "<group>"; };
 		A2D86E291E563461004AC5B5 /* PreemcherGabaritoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreemcherGabaritoViewController.swift; sourceTree = "<group>"; };
+		A2FAE8881E577A09008AC3BC /* Provas.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Provas.xcdatamodel; sourceTree = "<group>"; };
 		B99FBC7D087BDA4E9BE5811E /* Pods_ProjectCheckUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ProjectCheckUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD18D7CE634B83917A3EF471 /* Pods-ProjectCheckUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectCheckUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ProjectCheckUITests/Pods-ProjectCheckUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,6 +101,7 @@
 		666A571BD47BF1EFE4E5DA12 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A20572AF1E5B84D900A99DAF /* CoreData.framework */,
 				2781FFD59C6BB7B3BC45B44A /* Pods_ProjectCheck.framework */,
 				1F35E56526774D833FF37173 /* Pods_ProjectCheckTests.framework */,
 				B99FBC7D087BDA4E9BE5811E /* Pods_ProjectCheckUITests.framework */,
@@ -139,6 +143,7 @@
 				A222040B1E52438D001C068A /* CorrigirProvaViewController.swift */,
 				A222040D1E5243A3001C068A /* CriarProvaViewController.swift */,
 				A2D86E291E563461004AC5B5 /* PreemcherGabaritoViewController.swift */,
+				A2FAE8871E577A09008AC3BC /* Provas.xcdatamodeld */,
 			);
 			path = ProjectCheck;
 			sourceTree = "<group>";
@@ -461,6 +466,7 @@
 				A222040E1E5243A3001C068A /* CriarProvaViewController.swift in Sources */,
 				A222040C1E52438D001C068A /* CorrigirProvaViewController.swift in Sources */,
 				A22203DE1E521DB2001C068A /* AppDelegate.swift in Sources */,
+				A2FAE8891E577A09008AC3BC /* Provas.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,6 +738,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A2FAE8871E577A09008AC3BC /* Provas.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A2FAE8881E577A09008AC3BC /* Provas.xcdatamodel */,
+			);
+			currentVersion = A2FAE8881E577A09008AC3BC /* Provas.xcdatamodel */;
+			path = Provas.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A22203D21E521DB0001C068A /* Project object */;
 }

@@ -7,26 +7,55 @@
 //
 
 import UIKit
+import CoreData
 
-class CriarProvaViewController: UIViewController, UITextFieldDelegate {
+class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarRespostas {
     
     @IBOutlet weak var nomeProvaField: UITextField!
     @IBOutlet weak var nOpcoesLabel: UILabel!
     @IBOutlet weak var nOpcoes: UIStepper!
     @IBOutlet weak var nQuestoesField: UITextField!
+    @IBOutlet weak var criarProvaButton: UIButton!
     
-    var respostas: [String] = []
+    var container: NSPersistentContainer!
+    
+    var respostas: [String:String] = [:]
+    
+    func sendAnswersBack(_ answers: [String : String]) {
+        respostas = answers
+    }
 
     @IBAction func salvarProva(_ sender: UIButton) {
+        guard let provaID = nomeProvaField.text else {
+            return
+        }
         
+        print(respostas)
+        
+        var BD: [Gabarito] = []
+        
+        for key in respostas.keys {
+            let item: Gabarito = NSEntityDescription.insertNewObject(forEntityName: "Gabarito", into: container.viewContext) as! Gabarito
+            
+            item.idProva = provaID
+            item.questao = NSDecimalNumber(string: key)
+            item.alternativa = respostas[key]
+            BD.append(item)
+        }
+        
+        try! container.viewContext.save()
+        
+        print("---")
+        
+        let request: NSFetchRequest<Gabarito> = Gabarito.fetchRequest()
+        let results = try? container.viewContext.fetch(request)
+        print(results)
+        
+        self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func cancelarAcao(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func preencherGabarito(_ sender: UIButton) {
-        
+    @IBAction func cancelarAcao(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func confirmNumQuestions(_ sender: UIButton) {
@@ -48,7 +77,6 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate {
         } else if nQuestions < 1 {
             nQuestoesField.text = "1"
         }
-
     }
     
     
@@ -59,7 +87,8 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        container = appDelegate.persistentContainer
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,6 +102,10 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate {
             destino.respostas = respostas
             destino.nOpcoes = Int(nOpcoes.value)
             destino.nQuestoes = Int(nQuestoesField.text!) ?? 0
+            destino.mDelegate = self
+        } else if segue.identifier == "CriarProva" {
+            let destino = segue.destination as! CriarProvaViewController
+            destino.container = self.container
         }
     }
     

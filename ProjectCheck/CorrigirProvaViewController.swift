@@ -8,6 +8,7 @@
 
 import UIKit
 import ZBarSDK
+import CoreData
 
 class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
     
@@ -17,10 +18,11 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
     
     var nCorretas: Int = 0
     
-    var respostas: [String] = ["A,1","B,2","C,3","B,4"]
+    var respostas: [String] = []
     var valuesFound: [String] = []
     
     var reader = ZBarReaderViewController()
+    var container: NSPersistentContainer!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,10 +32,24 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
         reader.readerView.zoom = 1.0
         //reader.showsZBarControls = false
         reader.sourceType = UIImagePickerControllerSourceType.camera
+        
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        container = appDelegate.persistentContainer
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "CorrigirProva" {
+            let destino = segue.destination as! CriarProvaViewController
+            destino.container = self.container
+        }
     }
     
     @IBAction func corrigirProva(_ sender: UIButton) {
@@ -56,8 +72,9 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
         print(valuesFound)
         
         if (valuesFound.contains("P9001")) {
-            let prova = valuesFound.popLast()
+            let prova = valuesFound.removeLast()
             provaLabel.text = prova
+            buscarRespostas(prova: prova)
             nCorretas = checkAnswers()
             questoesLabel.text = "Questões Corretas \(nCorretas)/\(respostas.count)"
             reader.dismiss(animated: true, completion: nil)
@@ -65,7 +82,22 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
     }
     
     func buscarRespostas(prova: String) {
-        
+        let request: NSFetchRequest = Gabarito
+        .fetchRequest()
+        request.predicate = NSPredicate(format: "idProva == %@", prova)
+        do {
+            
+            let results = try container.viewContext.fetch(request) as [Gabarito]
+            
+            print(results)
+            for questao in results {
+                if let q = questao.questao, let a = questao.alternativa {
+                    respostas.append("\(a),\(q)")
+                }
+            }
+        } catch {
+            print(error)
+        }
     }
     
 //    func compareAnswers() -> Int {

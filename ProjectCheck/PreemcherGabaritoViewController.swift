@@ -7,17 +7,23 @@
 //
 
 import UIKit
+import CoreData
 
 class PreencherGabaritoCell: UITableViewCell {
     @IBOutlet weak var nQuestaoLabel: UILabel!
     @IBOutlet weak var respostaControl: UISegmentedControl!
 }
 
+protocol RetornarRespostas: class {
+    func sendAnswersBack(_ answers: [String:String])
+}
+
 class PreencherGabaritoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var gabarito: UITableView!
+    weak var mDelegate: RetornarRespostas?
     
-    var respostas: [String] = []
+    var respostas: [String:String] = [:]
     var nOpcoes: Int = 0
     var nQuestoes: Int = 0
 
@@ -59,13 +65,35 @@ class PreencherGabaritoViewController: UIViewController, UITableViewDelegate, UI
     }
     
     @IBAction func returnToCriarProva(_ sender: UIBarButtonItem) {
-        for cell in gabarito.visibleCells as! [PreencherGabaritoCell] {
-            let opcao = cell.respostaControl.titleForSegment(at: cell.respostaControl.selectedSegmentIndex)! as String
+        for cell in getAllCells() as! [PreencherGabaritoCell] {
+            guard let opcao = cell.respostaControl.titleForSegment(at: cell.respostaControl.selectedSegmentIndex) else {
+                return
+            }
             let questao = cell.nQuestaoLabel.text! as String
-            respostas.append("\(opcao),\(questao)")
+            respostas[questao] = opcao
         }
         print(respostas)
-        self.dismiss(animated: true, completion: nil)
+        
+        mDelegate?.sendAnswersBack(respostas)
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func getAllCells() -> [UITableViewCell] {
+        
+        var cells = [UITableViewCell]()
+        // assuming tableView is your self.tableView defined somewhere
+        for i in 0...gabarito.numberOfSections-1
+        {
+            for j in 0...gabarito.numberOfRows(inSection: i)-1
+            {
+                if let cell = gabarito.cellForRow(at: IndexPath(row: j, section: i)) {
+                    cells.append(cell)
+                }
+                
+            }
+        }
+        return cells
     }
 
     /*
