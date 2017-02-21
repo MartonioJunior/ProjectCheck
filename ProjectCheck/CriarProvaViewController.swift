@@ -24,6 +24,10 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
     func sendAnswersBack(_ answers: [String : String]) {
         respostas = answers
     }
+    
+    func resetAnswers() {
+        respostas = [:]
+    }
 
     @IBAction func salvarProva(_ sender: UIButton) {
         guard let provaID = nomeProvaField.text else {
@@ -37,7 +41,7 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
         for key in respostas.keys {
             let item: Gabarito = NSEntityDescription.insertNewObject(forEntityName: "Gabarito", into: container.viewContext) as! Gabarito
             
-            item.idProva = provaID
+            item.idProva = "P"+provaID
             item.questao = NSDecimalNumber(string: key)
             item.alternativa = respostas[key]
             BD.append(item)
@@ -45,11 +49,9 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
         
         try! container.viewContext.save()
         
-        print("---")
-        
         let request: NSFetchRequest<Gabarito> = Gabarito.fetchRequest()
         let results = try? container.viewContext.fetch(request)
-        print(results)
+        print("---")
         
         self.dismiss(animated: true, completion: nil)
     }
@@ -63,10 +65,12 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
     }
     
     @IBAction func changeNumOptions(_ sender: UIStepper) {
+        resetAnswers()
         nOpcoesLabel.text = "\(Int(nOpcoes.value))"
     }
     
     @IBAction func changeNumQuestions(_ sender: UITextField) {
+        resetAnswers()
         guard let nQuestions = Int(nQuestoesField.text!) else {
             nQuestoesField.text = ""
             return
@@ -103,9 +107,6 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
             destino.nOpcoes = Int(nOpcoes.value)
             destino.nQuestoes = Int(nQuestoesField.text!) ?? 0
             destino.mDelegate = self
-        } else if segue.identifier == "CriarProva" {
-            let destino = segue.destination as! CriarProvaViewController
-            destino.container = self.container
         }
     }
     

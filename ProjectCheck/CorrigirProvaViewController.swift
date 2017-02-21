@@ -57,6 +57,7 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
     }
     
     func imagePickerController(_ reader: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        var identified: Bool = false
         let results: NSFastEnumeration = info[ZBarReaderControllerResults] as! NSFastEnumeration
         
         //print(results)
@@ -65,13 +66,14 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
             let symbolFound = symbol as? ZBarSymbol
             if let data = symbolFound?.data {
                 valuesFound.append(data)
+                identified = data.hasPrefix("P")
             }
         }
         
         checkForRepeats(onList: &valuesFound)
         print(valuesFound)
         
-        if (valuesFound.contains("P9001")) {
+        if (identified) {
             let prova = valuesFound.removeLast()
             provaLabel.text = prova
             buscarRespostas(prova: prova)
@@ -95,43 +97,29 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
                     respostas.append("\(a),\(q)")
                 }
             }
+            checkForRepeats(onList: &respostas)
         } catch {
             print(error)
         }
     }
     
-//    func compareAnswers() -> Int {
-//        var respostasCertas = 0
-//        let mapa1 = mapSquares(fromList: valuesFound, isAnswer: false)
-//        let mapa2 = mapSquares(fromList: respostas, isAnswer: true)
-//        print(mapa1)
-//        print(mapa2)
-//        
-//        for gabarito in mapa2 {
-//            for resposta in mapa1 {
-//                respostasCertas += resposta == gabarito ? 1 : 0
-//                break
-//            }
-//        }
-//        
-//        return respostasCertas
-//    }
-    
     func checkAnswers() -> Int {
         gabaritoLabel.text = ""
-        var respostasCertas = respostas.count
+        var respostasCertas = 0
         var log = ""
         
         for opcao in respostas {
             let questao = opcao.components(separatedBy: ",")[1]
-            if valuesFound.contains(opcao) {
-                print("{\(respostasCertas)} -> {\(respostasCertas - 1)}")
-                respostasCertas -= 1
+            if !valuesFound.contains(opcao) {
                 log += questao+"\tErrado\n"
             } else {
+                print("{\(respostasCertas)} -> {\(respostasCertas + 1)}")
+                respostasCertas += 1
                 log += questao+"\tCerto\n"
             }
         }
+        
+        log = makeLog(texto: log)
         
         gabaritoLabel.numberOfLines = respostas.count + 1
         gabaritoLabel.text = log
@@ -140,45 +128,15 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
         
     }
     
-//    func mapSquares(fromList list: [String], isAnswer: Bool) -> [[Bool]] {
-//        var prova: String = "-"
-//        
-//        var mapa: [[Bool]] = Array(repeating: [isAnswer, isAnswer, isAnswer], count: 4)
-//        
-//        for valueFound in valuesFound {
-//            if valueFound.hasPrefix("P") {
-//                prova = valueFound
-//                continue
-//            } else {
-//                guard let questao = Int(valueFound.components(separatedBy: ",")[1]) else {
-//                    continue
-//                }
-//                
-//                if valueFound.hasPrefix("A,") {
-//                    mapa[questao-1][0] = isAnswer == true
-//                }
-//                    
-//                else if valueFound.hasPrefix("B,") {
-//                    mapa[questao-1][1] = isAnswer == true
-//                }
-//                    
-//                else if valueFound.hasPrefix("C,") {
-//                    mapa[questao-1][2] = isAnswer == true
-//                }
-//                
-//                else if valueFound.hasPrefix("D,") {
-//                    mapa[questao-1][3] = isAnswer == true
-//                }
-//                    
-//                else if valueFound.hasPrefix("E,") {
-//                    mapa[questao-1][4] = isAnswer == true
-//                }
-//            }
-//        }
-//        
-//        provaLabel.text = prova
-//        return mapa
-//    }
+    func makeLog(texto: String) -> String {
+        var linhas = texto.components(separatedBy: "\n")
+        linhas = linhas.sorted {$0 < $1}
+        var log = ""
+        for linha in linhas {
+            log += linha+"\n"
+        }
+        return log
+    }
     
     @IBAction func cancelarOperacao(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)

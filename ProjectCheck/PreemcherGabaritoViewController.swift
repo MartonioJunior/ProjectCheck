@@ -24,13 +24,16 @@ class PreencherGabaritoViewController: UIViewController, UITableViewDelegate, UI
     weak var mDelegate: RetornarRespostas?
     
     var respostas: [String:String] = [:]
-    var nOpcoes: Int = 0
+    var nOpcoes: Int = 4
     var nQuestoes: Int = 0
+    
+    let alternativas = ["A","B","C","D","E","F"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         gabarito.delegate = self
         gabarito.dataSource = self
+        gabarito.allowsSelection = false
         // Do any additional setup after loading the view.
     }
     
@@ -55,10 +58,12 @@ class PreencherGabaritoViewController: UIViewController, UITableViewDelegate, UI
         
         cell.respostaControl.removeAllSegments()
         
-        let alternativas = ["A","B","C","D","E","F"]
-        
         for opcoes in alternativas[0..<nOpcoes].reversed() {
             cell.respostaControl.insertSegment(withTitle: opcoes, at: 0, animated: true)
+        }
+        
+        if let marcada = respostas["\(indexPath.row+1)"] {
+            cell.respostaControl.selectedSegmentIndex = alternativas.index(of: marcada)!
         }
         
         return cell
@@ -66,6 +71,9 @@ class PreencherGabaritoViewController: UIViewController, UITableViewDelegate, UI
     
     @IBAction func returnToCriarProva(_ sender: UIBarButtonItem) {
         for cell in getAllCells() as! [PreencherGabaritoCell] {
+            if cell.respostaControl.selectedSegmentIndex == -1 {
+                continue
+            }
             guard let opcao = cell.respostaControl.titleForSegment(at: cell.respostaControl.selectedSegmentIndex) else {
                 return
             }
@@ -83,14 +91,14 @@ class PreencherGabaritoViewController: UIViewController, UITableViewDelegate, UI
         
         var cells = [UITableViewCell]()
         // assuming tableView is your self.tableView defined somewhere
-        for i in 0...gabarito.numberOfSections-1
-        {
-            for j in 0...gabarito.numberOfRows(inSection: i)-1
-            {
+        for i in 0...gabarito.numberOfSections-1 {
+            if gabarito.numberOfRows(inSection: i) == 0 {
+                break
+            }
+            for j in 0...gabarito.numberOfRows(inSection: i)-1 {
                 if let cell = gabarito.cellForRow(at: IndexPath(row: j, section: i)) {
                     cells.append(cell)
                 }
-                
             }
         }
         return cells
