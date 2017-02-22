@@ -15,6 +15,7 @@ class VerProvaViewController: UIViewController, UITableViewDelegate, UITableView
     var container: NSPersistentContainer!
     
     var listaProvas: [String: Int] = [:]
+    var provaSelecionada: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +51,13 @@ class VerProvaViewController: UIViewController, UITableViewDelegate, UITableView
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "VerMais" {
+            let destino = segue.destination as! ProvaInfoViewController
+            destino.prova = self.provaSelecionada
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return listaProvas.keys.count
     }
@@ -72,6 +80,11 @@ class VerProvaViewController: UIViewController, UITableViewDelegate, UITableView
             deletar(prova: prova)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        provaSelecionada = listaProvas.keys.sorted()[indexPath.row]
+        performSegue(withIdentifier: "VerMais", sender: nil)
     }
     
     func deletar(prova: String) {
