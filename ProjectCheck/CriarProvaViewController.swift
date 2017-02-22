@@ -93,7 +93,7 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
         try! container.viewContext.save()
         
         let request: NSFetchRequest<Gabarito> = Gabarito.fetchRequest()
-        let results = try? container.viewContext.fetch(request)
+        _ = try? container.viewContext.fetch(request)
         print("---")
         
         self.dismiss(animated: true, completion: nil)

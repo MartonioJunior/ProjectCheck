@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		88B8BB7362F6187F036CD0B1 /* Pods_ProjectCheckUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B99FBC7D087BDA4E9BE5811E /* Pods_ProjectCheckUITests.framework */; };
+		A20C3D501E5E083C005E561B /* VerProvaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20C3D4F1E5E083C005E561B /* VerProvaViewController.swift */; };
 		A22203DE1E521DB2001C068A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22203DD1E521DB2001C068A /* AppDelegate.swift */; };
 		A22203E01E521DB2001C068A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22203DF1E521DB2001C068A /* ViewController.swift */; };
 		A22203E31E521DB2001C068A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A22203E11E521DB2001C068A /* Main.storyboard */; };
@@ -49,6 +50,7 @@
 		52A2D402CEFB455982705FD2 /* Pods-ProjectCheck.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectCheck.release.xcconfig"; path = "Pods/Target Support Files/Pods-ProjectCheck/Pods-ProjectCheck.release.xcconfig"; sourceTree = "<group>"; };
 		61B0CB99C7B3B160B8D74A50 /* Pods-ProjectCheckTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProjectCheckTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ProjectCheckTests/Pods-ProjectCheckTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A20572AF1E5B84D900A99DAF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A20C3D4F1E5E083C005E561B /* VerProvaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerProvaViewController.swift; sourceTree = "<group>"; };
 		A22203DA1E521DB2001C068A /* ProjectCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A22203DD1E521DB2001C068A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A22203DF1E521DB2001C068A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				A222040D1E5243A3001C068A /* CriarProvaViewController.swift */,
 				A2D86E291E563461004AC5B5 /* PreemcherGabaritoViewController.swift */,
 				A2FAE8871E577A09008AC3BC /* Provas.xcdatamodeld */,
+				A20C3D4F1E5E083C005E561B /* VerProvaViewController.swift */,
 			);
 			path = ProjectCheck;
 			sourceTree = "<group>";
@@ -461,6 +464,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A20C3D501E5E083C005E561B /* VerProvaViewController.swift in Sources */,
 				A2D86E2A1E563461004AC5B5 /* PreemcherGabaritoViewController.swift in Sources */,
 				A22203E01E521DB2001C068A /* ViewController.swift in Sources */,
 				A222040E1E5243A3001C068A /* CriarProvaViewController.swift in Sources */,
