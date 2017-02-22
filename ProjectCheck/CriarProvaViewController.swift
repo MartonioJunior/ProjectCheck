@@ -28,9 +28,52 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
     func resetAnswers() {
         respostas = [:]
     }
-
+    
+    func validateProva() -> Bool {
+        if (nomeProvaField.text?.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty)! || nomeProvaField.text == nil {
+            sendAlert(title: "Nome da Prova Vazio", message: "O campo 'Nome' é obrigatório!")
+            return false
+        }
+        
+        let provaID = nomeProvaField.text!
+        
+        let request: NSFetchRequest<Gabarito> = Gabarito.fetchRequest()
+        request.predicate = NSPredicate(format: "idProva == %@", "P"+provaID)
+        let results = try! container.viewContext.fetch(request)
+        
+        if results.count != 0 {
+            sendAlert(title: "Nome da Prova Já Existente", message: "Por favor, escolha outro nome!")
+            return false
+        }
+        
+        guard let nQuestoes = Int(nQuestoesField.text!) else {
+            sendAlert(title: "Número de questões Vazio", message: "O campo 'Quantidade de Questões' é obrigatório!")
+            return false
+        }
+        
+        if respostas.count == 0 {
+            sendAlert(title: "Gabarito não preenchido", message: "Por favor, preencha o gabarito depois de escolher o número de opções e de questões!")
+            return false
+        }
+        else if respostas.count != nQuestoes {
+            sendAlert(title: "Gabarito Incompleto", message: "Por favor, preencha todo o gabarito!")
+            return false
+        }
+        
+        return true
+    }
+    
+    func sendAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default) { action in
+            alertController.dismiss(animated: true, completion: nil)
+        }
+        alertController.addAction(OKAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     @IBAction func salvarProva(_ sender: UIButton) {
-        guard let provaID = nomeProvaField.text else {
+        if validateProva() == false {
             return
         }
         
@@ -41,7 +84,7 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
         for key in respostas.keys {
             let item: Gabarito = NSEntityDescription.insertNewObject(forEntityName: "Gabarito", into: container.viewContext) as! Gabarito
             
-            item.idProva = "P"+provaID
+            item.idProva = "P"+nomeProvaField.text!
             item.questao = NSDecimalNumber(string: key)
             item.alternativa = respostas[key]
             BD.append(item)
