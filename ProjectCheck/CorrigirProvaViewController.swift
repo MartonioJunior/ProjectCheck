@@ -33,7 +33,7 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
         //reader.showsZBarControls = false
         reader.sourceType = UIImagePickerControllerSourceType.camera
         
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     override func viewWillAppear(_ animated: Bool) {
