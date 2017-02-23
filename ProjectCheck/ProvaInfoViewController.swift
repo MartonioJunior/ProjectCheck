@@ -40,6 +40,7 @@ class ProvaInfoViewController: UIViewController {
         }
         
         gabaritoLabel.text = makeLog(texto: log)
+        navBar.title = prova
     }
 
     override func didReceiveMemoryWarning() {

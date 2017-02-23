@@ -14,7 +14,7 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
     
     @IBOutlet weak var provaLabel: UILabel!
     @IBOutlet weak var questoesLabel: UILabel!
-    @IBOutlet weak var gabaritoLabel: UILabel!
+    @IBOutlet weak var gabaritoLabel: UITextView!
     
     var nCorretas: Int = 0
     
@@ -89,7 +89,8 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
         request.predicate = NSPredicate(format: "idProva == %@", prova)
         do {
             
-            let results = try container.viewContext.fetch(request) as [Gabarito]
+            var results = try container.viewContext.fetch(request) as [Gabarito]
+            results = results.sorted {Int($0.questao!) < Int($1.questao!)}
             
             print(results)
             for questao in results {
@@ -105,23 +106,30 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
     
     func checkAnswers() -> Int {
         gabaritoLabel.text = ""
+        
         var respostasCertas = 0
         var log = ""
+        var respostasQuestao: [String:Int] = [:]
+        
+        for opcao in valuesFound {
+            let questao = opcao.components(separatedBy: ",")[1]
+            respostasQuestao[questao] = (respostasQuestao[questao] ?? 0) + 1
+        }
         
         for opcao in respostas {
             let questao = opcao.components(separatedBy: ",")[1]
-            if !valuesFound.contains(opcao) {
-                log += questao+"\tErrado\n"
+            if !valuesFound.contains(opcao) || respostasQuestao[questao]! > 1 {
+                log += questao+"\t\t\t\tErrado\n"
             } else {
-                print("{\(respostasCertas)} -> {\(respostasCertas + 1)}")
+                //print("{\(respostasCertas)} -> {\(respostasCertas + 1)}")
                 respostasCertas += 1
-                log += questao+"\tCerto\n"
+                log += questao+"\t\t\t\tCerto\n"
             }
         }
         
-        log = makeLog(texto: log)
+        print(respostasQuestao)
         
-        gabaritoLabel.numberOfLines = respostas.count + 1
+        log = makeLog(texto: log)
         gabaritoLabel.text = log
         
         return respostasCertas
@@ -129,9 +137,8 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
     }
     
     func makeLog(texto: String) -> String {
-        var linhas = texto.components(separatedBy: "\n")
-        linhas = linhas.sorted {$0 < $1}
-        var log = ""
+        let linhas = texto.components(separatedBy: "\n")
+        var log = "Questão\tAlternativa\n"
         for linha in linhas {
             log += linha+"\n"
         }
