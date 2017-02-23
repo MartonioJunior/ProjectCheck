@@ -26,6 +26,8 @@ class VerProvaViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        listaProvas.removeAll()
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         container = appDelegate.persistentContainer
         

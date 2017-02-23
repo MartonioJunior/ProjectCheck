@@ -26,14 +26,17 @@ class ProvaInfoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         container = appDelegate.persistentContainer
+        
         let request: NSFetchRequest<Gabarito> = Gabarito.fetchRequest()
         request.predicate = NSPredicate(format: "idProva == %@", prova)
-        let results = try! container.viewContext.fetch(request)
         
-        var log: String = ""
+        var results = try! container.viewContext.fetch(request)
+        results = results.sorted {Int($0.questao!) < Int($1.questao!)}
+        
+        var log: String = "Questão\tAlternativa\n"
         
         for item in results {
-            log += "\(item.questao!) \(item.alternativa!)\n"
+            log += "\(item.questao!)   \t\t\t\(item.alternativa!)\n"
         }
         
         gabaritoLabel.text = makeLog(texto: log)
@@ -49,11 +52,9 @@ class ProvaInfoViewController: UIViewController {
     }
     
     func makeLog(texto: String) -> String {
-        var linhas = texto.components(separatedBy: "\n")
-        linhas = linhas.sorted {$0 < $1}
         var log = ""
-        for linha in linhas {
-            log += linha+"\t\t"
+        for linha in texto.components(separatedBy: "\n") {
+            log += linha+"\n"
         }
         return log
     }

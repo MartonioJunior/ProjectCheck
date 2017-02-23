@@ -12,6 +12,12 @@ import CoreData
 class PreencherGabaritoCell: UITableViewCell {
     @IBOutlet weak var nQuestaoLabel: UILabel!
     @IBOutlet weak var respostaControl: UISegmentedControl!
+    
+    var id: Int = -1
+    
+    @IBAction func selectedOption(_ sender: UISegmentedControl) {
+        PreencherGabaritoViewController.controleRespostas[id] = respostaControl.selectedSegmentIndex
+    }
 }
 
 protocol RetornarRespostas: class {
@@ -26,6 +32,7 @@ class PreencherGabaritoViewController: UIViewController, UITableViewDelegate, UI
     var respostas: [String:String] = [:]
     var nOpcoes: Int = 4
     var nQuestoes: Int = 0
+    static var controleRespostas = [Int]()
     
     let alternativas = ["A","B","C","D","E","F"]
 
@@ -34,6 +41,8 @@ class PreencherGabaritoViewController: UIViewController, UITableViewDelegate, UI
         gabarito.delegate = self
         gabarito.dataSource = self
         gabarito.allowsSelection = false
+        
+        PreencherGabaritoViewController.controleRespostas = Array.init(repeating: -1, count: nQuestoes)
         // Do any additional setup after loading the view.
     }
     
@@ -54,33 +63,45 @@ class PreencherGabaritoViewController: UIViewController, UITableViewDelegate, UI
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! PreencherGabaritoCell
         
-        cell.nQuestaoLabel.text = "\(indexPath.row+1)"
-        
+        cell.id = indexPath.row
+        cell.nQuestaoLabel.text = "\(cell.id+1)"
         cell.respostaControl.removeAllSegments()
         
         for opcoes in alternativas[0..<nOpcoes].reversed() {
             cell.respostaControl.insertSegment(withTitle: opcoes, at: 0, animated: true)
         }
         
-        if let marcada = respostas["\(indexPath.row+1)"] {
+        if let marcada = respostas["\(cell.id+1)"] {
             cell.respostaControl.selectedSegmentIndex = alternativas.index(of: marcada)!
+        } else {
+            cell.respostaControl.selectedSegmentIndex = PreencherGabaritoViewController.controleRespostas[cell.id]
         }
         
         return cell
     }
     
+    
     @IBAction func returnToCriarProva(_ sender: UIBarButtonItem) {
-        for cell in getAllCells() as! [PreencherGabaritoCell] {
-            if cell.respostaControl.selectedSegmentIndex == -1 {
-                continue
+        var count = 0
+        
+        while count < nQuestoes {
+            if PreencherGabaritoViewController.controleRespostas[count] != -1 {
+                respostas[String.init(format: "%d", count+1)] = alternativas[PreencherGabaritoViewController.controleRespostas[count]]
             }
-            guard let opcao = cell.respostaControl.titleForSegment(at: cell.respostaControl.selectedSegmentIndex) else {
-                return
-            }
-            let questao = cell.nQuestaoLabel.text! as String
-            respostas[questao] = opcao
+            
+            count += 1
         }
-        print(respostas)
+        
+//        for cell in getAllCells() as! [PreencherGabaritoCell] {
+//            if cell.respostaControl.selectedSegmentIndex == -1 {
+//                continue
+//            }
+//            guard let opcao = cell.respostaControl.titleForSegment(at: cell.respostaControl.selectedSegmentIndex) else {
+//                return
+//            }
+//            let questao = cell.nQuestaoLabel.text! as String
+//            respostas[questao] = opcao
+//        }
         
         mDelegate?.sendAnswersBack(respostas)
         
