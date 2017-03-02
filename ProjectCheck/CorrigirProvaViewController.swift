@@ -58,6 +58,29 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
     
     func imagePickerController(_ reader: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         var identified: Bool = false
+        
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let data = image.getPixelData()
+        
+        for array in data {
+            var log = ""
+            var brightness = CGFloat()
+            var alpha = CGFloat()
+            for element in array {
+                element.getWhite(&brightness, alpha: &alpha)
+                
+                if brightness >= 0.8 {
+                    log += "X "
+                } else if brightness <= 0.3 {
+                    log += "O "
+                } else {
+                    log += "  "
+                }
+            }
+            print(" \(log)\n")
+        }
+        
+
         let results: NSFastEnumeration = info[ZBarReaderControllerResults] as! NSFastEnumeration
         
         //print(results)
@@ -84,8 +107,7 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
     }
     
     func buscarRespostas(prova: String) {
-        let request: NSFetchRequest = Gabarito
-        .fetchRequest()
+        let request: NSFetchRequest = Gabarito.fetchRequest()
         request.predicate = NSPredicate(format: "idProva == %@", prova)
         do {
             
@@ -159,9 +181,6 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
         list = checkedList
     }
     
-    
-    
-
     /*
     // MARK: - Navigation
 
@@ -177,5 +196,34 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
 extension ZBarSymbolSet: Sequence {
     public func makeIterator() -> NSFastEnumerationIterator {
         return NSFastEnumerationIterator(self)
+    }
+}
+
+extension UIImage {
+    func getPixelData() -> [[UIColor]] {
+        let pixelData = self.cgImage!.dataProvider!.data
+        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        // formato 3:4 largura:altura
+        
+        var colorMatrix: [[UIColor]] = Array.init()
+        
+        for x in (0..<Int(self.size.width)) where x % 175 == 0 {
+            var colorLine: [UIColor] = Array.init()
+            
+            for y in (0..<Int(self.size.height)) where y % 68 == 0 {
+                let pixelInfo: Int = ((Int(self.size.width) * Int(y)) + Int(x)) * 4
+                
+                let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
+                let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
+                let b = CGFloat(data[pixelInfo+2]) / CGFloat(255.0)
+                let a = CGFloat(data[pixelInfo+3]) / CGFloat(255.0)
+                
+                colorLine.append(UIColor(red: r, green: g, blue: b, alpha: a))
+            }
+            
+            colorMatrix.append(colorLine)
+        }
+        
+        return colorMatrix
     }
 }

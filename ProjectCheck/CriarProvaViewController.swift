@@ -119,8 +119,8 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
             return
         }
         
-        if nQuestions > 180 {
-            nQuestoesField.text = "180"
+        if nQuestions > 96 {
+            nQuestoesField.text = "96"
         } else if nQuestions < 1 {
             nQuestoesField.text = "1"
         }
