@@ -19,6 +19,7 @@
 		A222040C1E52438D001C068A /* CorrigirProvaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A222040B1E52438D001C068A /* CorrigirProvaViewController.swift */; };
 		A222040E1E5243A3001C068A /* CriarProvaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A222040D1E5243A3001C068A /* CriarProvaViewController.swift */; };
 		A250B3051E5E1DAD00DD5E01 /* ProvaInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A250B3041E5E1DAD00DD5E01 /* ProvaInfoViewController.swift */; };
+		A269FCBE1E68B79A0077C04A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A269FCBD1E68B79A0077C04A /* LaunchScreen.storyboard */; };
 		A2D86E2A1E563461004AC5B5 /* PreemcherGabaritoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D86E291E563461004AC5B5 /* PreemcherGabaritoViewController.swift */; };
 		A2FAE8891E577A09008AC3BC /* Provas.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A2FAE8871E577A09008AC3BC /* Provas.xcdatamodeld */; };
 		CBAD1D98D8EC0E1892B9A36D /* Pods_ProjectCheck.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2781FFD59C6BB7B3BC45B44A /* Pods_ProjectCheck.framework */; };
@@ -68,6 +69,7 @@
 		A222040B1E52438D001C068A /* CorrigirProvaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CorrigirProvaViewController.swift; sourceTree = "<group>"; };
 		A222040D1E5243A3001C068A /* CriarProvaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriarProvaViewController.swift; sourceTree = "<group>"; };
 		A250B3041E5E1DAD00DD5E01 /* ProvaInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProvaInfoViewController.swift; sourceTree = "<group>"; };
+		A269FCBD1E68B79A0077C04A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A2D86E291E563461004AC5B5 /* PreemcherGabaritoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreemcherGabaritoViewController.swift; sourceTree = "<group>"; };
 		A2FAE8881E577A09008AC3BC /* Provas.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Provas.xcdatamodel; sourceTree = "<group>"; };
 		B99FBC7D087BDA4E9BE5811E /* Pods_ProjectCheckUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ProjectCheckUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -150,6 +152,7 @@
 				A2FAE8871E577A09008AC3BC /* Provas.xcdatamodeld */,
 				A20C3D4F1E5E083C005E561B /* VerProvaViewController.swift */,
 				A250B3041E5E1DAD00DD5E01 /* ProvaInfoViewController.swift */,
+				A269FCBD1E68B79A0077C04A /* LaunchScreen.storyboard */,
 			);
 			path = ProjectCheck;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A22203E81E521DB2001C068A /* LaunchScreen.storyboard in Resources */,
+				A269FCBE1E68B79A0077C04A /* LaunchScreen.storyboard in Resources */,
 				A22203E51E521DB2001C068A /* Assets.xcassets in Resources */,
 				A22203E31E521DB2001C068A /* Main.storyboard in Resources */,
 			);
