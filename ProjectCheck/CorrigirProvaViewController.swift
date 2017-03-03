@@ -10,14 +10,16 @@ import UIKit
 import ZBarSDK
 import CoreData
 
-class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    @IBOutlet weak var provaLabel: UILabel!
     @IBOutlet weak var questoesLabel: UILabel!
     @IBOutlet weak var gabaritoLabel: UITextView!
+    @IBOutlet weak var provaSelector: UIPickerView!
     
     var nCorretas: Int = 0
+    var provaSelecionada = ""
     
+    var provas: [String] = []
     var respostas: [String] = []
     var valuesFound: [String] = []
     
@@ -30,12 +32,25 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
         reader.allowsEditing = false
         reader.sourceType = UIImagePickerControllerSourceType.savedPhotosAlbum
         
+        provaSelector.delegate = self
+        provaSelector.dataSource = self
+        
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     override func viewWillAppear(_ animated: Bool) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         container = appDelegate.persistentContainer
+        
+        let results = try! container.viewContext.fetch(Gabarito.fetchRequest()) as! [Gabarito]
+        
+        for item in results {
+            if let ID = item.idProva {
+                provas.append(ID)
+            }
+        }
+        
+        checkForRepeats(onList: &provas)
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,6 +66,22 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
     
     @IBAction func corrigirProva(_ sender: UIButton) {
         present(reader, animated: true, completion: nil)
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return provas.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return provas[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        provaSelecionada = provas[row]
     }
     
     func imagePickerController(_ reader: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -101,9 +132,7 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
         checkForRepeats(onList: &valuesFound)
         print(valuesFound)
         
-        let prova = "P9001"
-        provaLabel.text = prova
-        buscarRespostas(prova: prova)
+        buscarRespostas(prova: provaSelecionada)
         nCorretas = checkAnswers()
         questoesLabel.text = "Questões Corretas \(nCorretas)/\(respostas.count)"
         reader.dismiss(animated: true, completion: nil)
