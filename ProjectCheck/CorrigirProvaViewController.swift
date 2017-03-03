@@ -10,7 +10,7 @@ import UIKit
 import ZBarSDK
 import CoreData
 
-class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
+class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var provaLabel: UILabel!
     @IBOutlet weak var questoesLabel: UILabel!
@@ -21,17 +21,14 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
     var respostas: [String] = []
     var valuesFound: [String] = []
     
-    var reader = ZBarReaderViewController()
+    var reader = UIImagePickerController()
     var container: NSPersistentContainer!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        reader.readerDelegate = self
-        reader.scanner.setSymbology(ZBAR_QRCODE, config: ZBAR_CFG_ENABLE, to: 1)
-        reader.readerView.zoom = 1.0
-        //reader.showsZBarControls = false
-        reader.sourceType = UIImagePickerControllerSourceType.camera
+        reader.delegate = self
+        reader.allowsEditing = false
+        reader.sourceType = UIImagePickerControllerSourceType.savedPhotosAlbum
         
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
@@ -57,53 +54,63 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
     }
     
     func imagePickerController(_ reader: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        var identified: Bool = false
-        
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         let data = image.getPixelData()
+        let alternativas = ["A","B","C","D","E","F"]
+        var answerData:[[String]] = Array.init()
         
         for array in data {
-            var log = ""
+            var log: [String] = []
             var brightness = CGFloat()
             var alpha = CGFloat()
             for element in array {
                 element.getWhite(&brightness, alpha: &alpha)
                 
                 if brightness >= 0.8 {
-                    log += "X "
+                    log.append("X")
                 } else if brightness <= 0.3 {
-                    log += "O "
+                    log.append("O")
                 } else {
-                    log += "  "
+                    log.append(" ")
                 }
             }
+            answerData.append(log)
             print(" \(log)\n")
         }
         
-
-        let results: NSFastEnumeration = info[ZBarReaderControllerResults] as! NSFastEnumeration
+        var x = 0
+        var y = 0
         
-        //print(results)
-        
-        for symbol in results as! ZBarSymbolSet {
-            let symbolFound = symbol as? ZBarSymbol
-            if let data = symbolFound?.data {
-                valuesFound.append(data)
-                identified = data.hasPrefix("P")
+        for column in answerData {
+            y = 0
+            for line in column {
+                if line == "O", x%7 != 0 {
+                    self.valuesFound.append("\(alternativas[(x%7)-1]),\(y+1)")
+                }
+                y += 1
             }
+            x += 1
         }
+        
+        if x != 14 || y != 48 {
+            reader.dismiss(animated: true, completion: nil)
+        }
+        
+        print("\(x) colunas x \(y) linhas")
         
         checkForRepeats(onList: &valuesFound)
         print(valuesFound)
         
-        if (identified) {
-            let prova = valuesFound.removeLast()
-            provaLabel.text = prova
-            buscarRespostas(prova: prova)
-            nCorretas = checkAnswers()
-            questoesLabel.text = "Questões Corretas \(nCorretas)/\(respostas.count)"
-            reader.dismiss(animated: true, completion: nil)
-        }
+        let prova = "P9001"
+        provaLabel.text = prova
+        buscarRespostas(prova: prova)
+        nCorretas = checkAnswers()
+        questoesLabel.text = "Questões Corretas \(nCorretas)/\(respostas.count)"
+        reader.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        reader.dismiss(animated: true, completion: nil)
     }
     
     func buscarRespostas(prova: String) {
@@ -193,13 +200,8 @@ class CorrigirProvaViewController: UIViewController, ZBarReaderDelegate {
 
 }
 
-extension ZBarSymbolSet: Sequence {
-    public func makeIterator() -> NSFastEnumerationIterator {
-        return NSFastEnumerationIterator(self)
-    }
-}
-
 extension UIImage {
+    
     func getPixelData() -> [[UIColor]] {
         let pixelData = self.cgImage!.dataProvider!.data
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
@@ -207,10 +209,10 @@ extension UIImage {
         
         var colorMatrix: [[UIColor]] = Array.init()
         
-        for x in (0..<Int(self.size.width)) where x % 175 == 0 {
+        for x in (0..<Int(self.size.width)) where x % 110 == 55 { // .jpg x % 175 == 87
             var colorLine: [UIColor] = Array.init()
             
-            for y in (0..<Int(self.size.height)) where y % 68 == 0 {
+            for y in (0..<Int(self.size.height)) where y % 43 == 21 { // .jpg % 68 == 34
                 let pixelInfo: Int = ((Int(self.size.width) * Int(y)) + Int(x)) * 4
                 
                 let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
