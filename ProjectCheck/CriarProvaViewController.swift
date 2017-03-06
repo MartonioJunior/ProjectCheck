@@ -38,7 +38,7 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
         let provaID = nomeProvaField.text!
         
         let request: NSFetchRequest<Gabarito> = Gabarito.fetchRequest()
-        request.predicate = NSPredicate(format: "idProva == %@", "P"+provaID)
+        request.predicate = NSPredicate(format: "idProva == %@", provaID)
         let results = try! container.viewContext.fetch(request)
         
         if results.count != 0 {
@@ -84,7 +84,7 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
         for key in respostas.keys {
             let item: Gabarito = NSEntityDescription.insertNewObject(forEntityName: "Gabarito", into: container.viewContext) as! Gabarito
             
-            item.idProva = "P"+nomeProvaField.text!
+            item.idProva = nomeProvaField.text!
             item.questao = NSDecimalNumber(string: key)
             item.alternativa = respostas[key]
             BD.append(item)

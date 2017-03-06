@@ -44,11 +44,24 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
         
         let results = try! container.viewContext.fetch(Gabarito.fetchRequest()) as! [Gabarito]
         
+        if results.isEmpty {
+            let alertController = UIAlertController(title: "Não há provas cadastradas", message: "Por favor, adicione uma nova prova!", preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "OK", style: .default) { action in
+                alertController.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
+            }
+            alertController.addAction(OKAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+        
         for item in results {
             if let ID = item.idProva {
                 provas.append(ID)
             }
         }
+        
+        provaSelector.selectRow(0, inComponent: 0, animated: false)
+        provaSelecionada = provas[0]
         
         checkForRepeats(onList: &provas)
     }
@@ -176,12 +189,13 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
         
         for opcao in respostas {
             let questao = opcao.components(separatedBy: ",")[1]
+            let resposta = opcao.components(separatedBy: ",")[0]
             if !valuesFound.contains(opcao) || respostasQuestao[questao]! > 1 {
-                log += questao+"\t\t\t\tErrado\n"
+                log += questao+"   \t\t\tErrado\t\t \(resposta)\n"
             } else {
                 //print("{\(respostasCertas)} -> {\(respostasCertas + 1)}")
                 respostasCertas += 1
-                log += questao+"\t\t\t\tCerto\n"
+                log += questao+"   \t\t\tCerto\t\t \(resposta)\n"
             }
         }
         
@@ -196,7 +210,7 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
     
     func makeLog(texto: String) -> String {
         let linhas = texto.components(separatedBy: "\n")
-        var log = "Questão\tAlternativa\n"
+        var log = "Questão\tResultado\t Resposta\n"
         for linha in linhas {
             log += linha+"\n"
         }
