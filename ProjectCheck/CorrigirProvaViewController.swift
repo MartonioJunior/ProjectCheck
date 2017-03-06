@@ -52,18 +52,18 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
             }
             alertController.addAction(OKAction)
             self.present(alertController, animated: true, completion: nil)
-        }
+        } else {
         
-        for item in results {
-            if let ID = item.idProva {
-                provas.append(ID)
+            for item in results {
+                if let ID = item.idProva {
+                    provas.append(ID)
+                }
             }
+        
+            provaSelecionada = provaSelecionada == "" ? provas[0] : provaSelecionada
+        
+            checkForRepeats(onList: &provas)
         }
-        
-        provaSelector.selectRow(0, inComponent: 0, animated: false)
-        provaSelecionada = provas[0]
-        
-        checkForRepeats(onList: &provas)
     }
 
     override func didReceiveMemoryWarning() {
@@ -156,6 +156,7 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
     }
     
     func buscarRespostas(prova: String) {
+        respostas.removeAll()
         let request: NSFetchRequest = Gabarito.fetchRequest()
         request.predicate = NSPredicate(format: "idProva == %@", prova)
         do {
