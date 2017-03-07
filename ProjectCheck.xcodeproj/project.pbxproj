@@ -13,7 +13,6 @@
 		A22203E01E521DB2001C068A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22203DF1E521DB2001C068A /* ViewController.swift */; };
 		A22203E31E521DB2001C068A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A22203E11E521DB2001C068A /* Main.storyboard */; };
 		A22203E51E521DB2001C068A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A22203E41E521DB2001C068A /* Assets.xcassets */; };
-		A22203E81E521DB2001C068A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A22203E61E521DB2001C068A /* LaunchScreen.storyboard */; };
 		A22203F31E521DB2001C068A /* ProjectCheckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22203F21E521DB2001C068A /* ProjectCheckTests.swift */; };
 		A22203FE1E521DB2001C068A /* ProjectCheckUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22203FD1E521DB2001C068A /* ProjectCheckUITests.swift */; };
 		A222040C1E52438D001C068A /* CorrigirProvaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A222040B1E52438D001C068A /* CorrigirProvaViewController.swift */; };
@@ -58,7 +57,6 @@
 		A22203DF1E521DB2001C068A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A22203E21E521DB2001C068A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A22203E41E521DB2001C068A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A22203E71E521DB2001C068A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A22203E91E521DB2001C068A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A22203EE1E521DB2001C068A /* ProjectCheckTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProjectCheckTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A22203F21E521DB2001C068A /* ProjectCheckTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCheckTests.swift; sourceTree = "<group>"; };
@@ -144,7 +142,6 @@
 				A22203DF1E521DB2001C068A /* ViewController.swift */,
 				A22203E11E521DB2001C068A /* Main.storyboard */,
 				A22203E41E521DB2001C068A /* Assets.xcassets */,
-				A22203E61E521DB2001C068A /* LaunchScreen.storyboard */,
 				A22203E91E521DB2001C068A /* Info.plist */,
 				A222040B1E52438D001C068A /* CorrigirProvaViewController.swift */,
 				A222040D1E5243A3001C068A /* CriarProvaViewController.swift */,
@@ -305,7 +302,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A22203E81E521DB2001C068A /* LaunchScreen.storyboard in Resources */,
 				A269FCBE1E68B79A0077C04A /* LaunchScreen.storyboard in Resources */,
 				A22203E51E521DB2001C068A /* Assets.xcassets in Resources */,
 				A22203E31E521DB2001C068A /* Main.storyboard in Resources */,
@@ -520,14 +516,6 @@
 				A22203E21E521DB2001C068A /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		A22203E61E521DB2001C068A /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A22203E71E521DB2001C068A /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
