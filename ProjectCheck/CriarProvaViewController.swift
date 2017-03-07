@@ -17,12 +17,12 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
     @IBOutlet weak var nQuestoesField: UITextField!
     @IBOutlet weak var criarProvaButton: UIButton!
     
-    func setStatusBarBackgroundColor(color: UIColor) {
-        
-        guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
-        
-        statusBar.backgroundColor = color
-    }
+//    func setStatusBarBackgroundColor(color: UIColor) {
+//        
+//        guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
+//        
+//        statusBar.backgroundColor = color
+//    }
     
     var container: NSPersistentContainer!
     
@@ -137,8 +137,8 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
     override func viewDidLoad() {
         super.viewDidLoad()
         nomeProvaField.delegate = self
-        let defaultColor = UIColor(red: 53/255, green: 178/255, blue: 200/255, alpha: 1)
-        setStatusBarBackgroundColor(color: defaultColor)
+//        let defaultColor = UIColor(red: 53/255, green: 178/255, blue: 200/255, alpha: 1)
+//        setStatusBarBackgroundColor(color: defaultColor)
         // Do any additional setup after loading the view.
     }
     
