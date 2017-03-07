@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ZBarSDK
 import CoreData
 
 class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
