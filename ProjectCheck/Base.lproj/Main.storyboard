@@ -502,9 +502,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="CorrigirProvaButton" width="3277" height="5264"/>
-        <image name="CriarProvaButton" width="3277" height="5328"/>
+        <image name="CorrigirProvaButton" width="637" height="1024"/>
+        <image name="CriarProvaButton" width="630" height="1024"/>
         <image name="Logo" width="1024" height="1024"/>
-        <image name="VerProvaButton" width="4443" height="6137"/>
+        <image name="VerProvaButton" width="741" height="1024"/>
     </resources>
 </document>
