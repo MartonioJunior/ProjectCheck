@@ -84,8 +84,6 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
             return
         }
         
-        print(respostas)
-        
         var BD: [Gabarito] = []
         
         for key in respostas.keys {
@@ -98,10 +96,6 @@ class CriarProvaViewController: UIViewController, UITextFieldDelegate, RetornarR
         }
         
         try! container.viewContext.save()
-        
-        let request: NSFetchRequest<Gabarito> = Gabarito.fetchRequest()
-        _ = try? container.viewContext.fetch(request)
-        print("---")
         
         self.dismiss(animated: true, completion: nil)
     }

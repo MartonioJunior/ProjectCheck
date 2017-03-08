@@ -33,8 +33,6 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
         
         provaSelector.delegate = self
         provaSelector.dataSource = self
-        
-        //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -102,13 +100,15 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
         let alternativas = ["A","B","C","D","E","F"]
         var answerData:[[String]] = Array.init()
         
+        valuesFound.removeAll()
+        
         for array in data {
             var log: [String] = []
             var brightness = CGFloat()
             var alpha = CGFloat()
             for element in array {
                 element.getWhite(&brightness, alpha: &alpha)
-                
+
                 if brightness >= 0.8 {
                     log.append("X")
                 } else if brightness <= 0.3 {
@@ -128,7 +128,7 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
             y = 0
             for line in column {
                 if line == "O", x%7 != 0 {
-                    self.valuesFound.append("\(alternativas[(x%7)-1]),\(y+1)")
+                    self.valuesFound.append("\(alternativas[(x%7)-1]),\((x/8)*48+y+1)")
                 }
                 y += 1
             }
@@ -139,7 +139,7 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
             reader.dismiss(animated: true, completion: nil)
         }
         
-        print("\(x) colunas x \(y) linhas")
+        print("\(x) colunas x \(y) linhas\n")
         
         checkForRepeats(onList: &valuesFound)
         print(valuesFound)
@@ -163,7 +163,6 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
             var results = try container.viewContext.fetch(request) as [Gabarito]
             results = results.sorted {Int($0.questao!) < Int($1.questao!)}
             
-            print(results)
             for questao in results {
                 if let q = questao.questao, let a = questao.alternativa {
                     respostas.append("\(a),\(q)")
@@ -193,7 +192,6 @@ class CorrigirProvaViewController: UIViewController, UIImagePickerControllerDele
             if !valuesFound.contains(opcao) || respostasQuestao[questao]! > 1 {
                 log += questao+"   \t\t\tErrado\t\t \(resposta)\n"
             } else {
-                //print("{\(respostasCertas)} -> {\(respostasCertas + 1)}")
                 respostasCertas += 1
                 log += questao+"   \t\t\tCerto\t\t \(resposta)\n"
             }

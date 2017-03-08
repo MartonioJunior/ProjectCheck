@@ -22,10 +22,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>A câmera é necessária para ler QR Codes</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Precisamos acessar a galeria para corrigir provas fotografadas</string>
+	<string>Precisamos acessar a galeria para corrigir os gabaritos</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
