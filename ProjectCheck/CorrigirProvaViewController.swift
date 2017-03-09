@@ -250,10 +250,10 @@ extension UIImage {
         
         var colorMatrix: [[UIColor]] = Array.init()
         
-        for x in (0..<Int(self.size.width)) where x % 110 == 55 { // .jpg x % 175 == 87
+        for x in (0..<Int(self.size.width)) where x % 175 == 87 {
             var colorLine: [UIColor] = Array.init()
             
-            for y in (0..<Int(self.size.height)) where y % 43 == 21 { // .jpg % 68 == 34
+            for y in (0..<Int(self.size.height)) where y % 68 == 34 {
                 let pixelInfo: Int = ((Int(self.size.width) * Int(y)) + Int(x)) * 4
                 
                 let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
